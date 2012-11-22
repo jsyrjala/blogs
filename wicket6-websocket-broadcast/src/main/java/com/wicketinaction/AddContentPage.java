@@ -7,6 +7,6 @@ public class AddContentPage extends BasePage {
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
-		add(new AddContentPanel("addContentPanel"));
+		add(new AddContentAjaxPanel("addContentPanel"));
 	}
 }

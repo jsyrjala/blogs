@@ -85,6 +85,7 @@ public class FeedPage extends BasePage {
 			messages.remove(0);
 		}
 		log.info("Push message {}. Number of messages {}.", message, messages.size());
+		log.info("FeedPage: {}", handler);
 		container.modelChanged();
 		handler.add(container);
 	}

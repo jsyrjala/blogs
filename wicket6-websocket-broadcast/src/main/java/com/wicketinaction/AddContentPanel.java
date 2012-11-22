@@ -46,6 +46,7 @@ public class AddContentPanel extends Panel {
 				new WebSocketPushBroadcaster().broadcastAll(Application.get(),
 						feedItem);
 				latestMessage.setDefaultModelObject(feedItem).modelChanged();
+				log.info("AddContent: {}", handler);
 				handler.add(latestMessage);
 			}
 
