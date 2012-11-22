@@ -1,5 +1,8 @@
 package com.wicketinaction;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.apache.wicket.Application;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -13,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AddContentAjaxPanel extends Panel {
+	private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory
@@ -34,17 +38,26 @@ public class AddContentAjaxPanel extends Panel {
 				"ajaxMessage", Model.of(""));
 		ajaxForm.add(ajaxMessage);
 		ajaxForm.add(new AjaxButton("sendAjax") {
+			
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
 				log.info("submit");
 				String message = ajaxMessage.getModelObject();
-				FeedItem feedItem = new FeedItem(message);
+				final FeedItem feedItem = new FeedItem(message);
 				latestMessage.setDefaultModelObject(feedItem);
 				ajaxMessage.setModelObject(null);
 				target.add(ajaxForm);
-				new WebSocketPushBroadcaster().broadcastAll(Application.get(),
-						feedItem);
-
+				final Application application = Application.get();
+				// broadcasting must be executed in separate thread
+				// otherwise components pushed to websockets will end up in
+				// AjaxRequestTarget here.
+				Runnable command = new Runnable() {
+					public void run() {
+						new WebSocketPushBroadcaster().broadcastAll(application,
+								feedItem);
+					};
+				};
+				executorService.execute(command);
 			}
 		});
 
