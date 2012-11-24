@@ -47,17 +47,8 @@ public class AddContentAjaxPanel extends Panel {
 				latestMessage.setDefaultModelObject(feedItem);
 				ajaxMessage.setModelObject(null);
 				target.add(ajaxForm);
-				final Application application = Application.get();
-				// broadcasting must be executed in separate thread
-				// otherwise components pushed to websockets will end up in
-				// AjaxRequestTarget here.
-				Runnable command = new Runnable() {
-					public void run() {
-						new WebSocketPushBroadcaster().broadcastAll(application,
-								feedItem);
-					};
-				};
-				executorService.execute(command);
+				new WebSocketPushBroadcaster().broadcastAll(Application.get(),
+						feedItem);
 			}
 		});
 

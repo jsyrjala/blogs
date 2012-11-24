@@ -13,13 +13,16 @@ import org.apache.wicket.protocol.ws.api.message.TextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AddContentPanel extends Panel {
+/**
+ * Example of doing "ajax like submit" via web socket.
+ */
+public class AddContentWebSocketPanel extends Panel {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = LoggerFactory
-			.getLogger(AddContentPanel.class);
+			.getLogger(AddContentWebSocketPanel.class);
 
-	public AddContentPanel(String id) {
+	public AddContentWebSocketPanel(String id) {
 		super(id);
 		setOutputMarkupId(true);
 	}
