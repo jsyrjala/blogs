@@ -1,9 +1,12 @@
-= Example application for Web Socket broadcast =
+Example application for Web Socket broadcast
+============================================
 
-== Compiling ==
+Compiling
+---------
 Must be compiled against wicket in https://github.com/NitorCreations/wicket.
 
-== Functionality ==
+Functionality
+------------
 Contains two pages:
 - FeedPage - shows a content feed (like Twitter). Page shows 5 latest items.
 - AddContentPage - contains a form to add messages to the feed.
